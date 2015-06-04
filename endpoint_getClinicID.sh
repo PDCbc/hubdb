@@ -5,11 +5,30 @@
 
 # Halt on errors or unset variables
 #
-set -e -o nounset -x
+set -e -o nounset
+
+
+# Expected input
+#
+# $0 this script
+# $1 Gateway ID number
+
+
+# Check parameters
+#
+if [ $# -ne 1 ]
+then
+	echo ""
+	echo "Unexpected number of parameters."
+	echo ""
+	echo "Usage: endpoint_getClinicID.sh [gatewayID]"
+	echo ""
+	exit
+fi
 
 
 # Obtain clinic number
 #
 mongo query_composer_development --eval \
-  '{ "base_url" : "http://localhost:`expr 40000 + ${1}`" }, { "_id": 1 }' \
-  | grep -o "(.*)" | grep -io "\w\+"
+  'printjson( db.endpoints.findOne({ base_url : "http://localhost:'$(expr 40000 + $1)'" }))' \
+  | grep ObjectId | grep -o "(.*)" | grep -io "\w\+"

@@ -5,7 +5,7 @@
 
 # Halt on errors or unset variables
 #
-set -e -o nounset -x
+set -e -o nounset
 
 
 # Set key (for duplicates) and import pdcadmin account

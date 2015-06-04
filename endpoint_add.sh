@@ -5,7 +5,13 @@
 
 # Halt on errors or unset variables
 #
-set -e -o nounset -x
+set -e -o nounset
+
+
+# If record already exists, then remove it
+#
+mongo query_composer_development --eval \
+  'db.endpoints.remove({ "base_url" : "http://localhost:'`expr 40000 + ${1}`'" })'
 
 
 # Add JSON for Endpoint and URL

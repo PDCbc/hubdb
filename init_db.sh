@@ -5,7 +5,7 @@
 
 # Halt on errors or unset variables
 #
-set -e -o nounset -x
+set -e -o nounset
 
 
 # Run after initial boot, wait 10 seconds for mongo to start

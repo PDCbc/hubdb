@@ -5,7 +5,26 @@
 
 # Halt on errors or unset variables
 #
-set -e -o nounset -x
+set -e -o nounset
+
+
+# Expected input
+#
+# $0 this script
+# $1 Endpoint number
+
+
+# Check parameters
+#
+if [ $# -ne 1 ]
+then
+	echo ""
+	echo "Unexpected number of parameters."
+	echo ""
+	echo "Usage: endpoint_remove.sh [endpointNumber]"
+	echo ""
+	exit
+fi
 
 
 # Remove entry for an endpoint
