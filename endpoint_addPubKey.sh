@@ -8,10 +8,10 @@
 set -e -o nounset
 
 
-# Set key (for duplicates) and import pdcadmin account
+# Add Endpoint pdc-#### and its expected address
 #
 mongo query_composer_development --eval \
-  'db.endpoints.insert({ "name" : "'ep${1}'", "base_url" : "http://localhost:'`expr 40000 + ${1}`'" })'
+  'db.endpoints.insert({ "name" : "'pdc-${1}'", "base_url" : "http://localhost:'`expr 40000 + ${1}`'" })'
 
 
 # Append Endpoint public key to authorized_keys

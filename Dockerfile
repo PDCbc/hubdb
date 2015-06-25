@@ -11,7 +11,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo 'Dpkg::Options{ "--force-confdef"; "--force-confold" }' \
       >> /etc/apt/apt.conf.d/local
 RUN apt-get update; \
-    apt-get upgrade -y
+    apt-get upgrade -y; \
+    apt-get install -y \
+      cron \
+      nano
 
 
 # Prepare /app/ folder
