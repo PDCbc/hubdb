@@ -17,6 +17,20 @@ RUN apt-get update; \
       nano
 
 
+RUN if([ ! -f /var/spoot/cron/crontabs/root ]|| \
+      ( sudo ! grep --quiet 'mongodb_dump.sh' /var/spool/cron/crontabs/root )); \
+    then \
+      ( \
+        echo ''; \
+        echo '# Dump MongoDB for backup'; \
+        echo '#'; \
+        echo '15 3 * * * /app/mongodb_dump.sh'; \
+        echo '15 11 * * * /app/mongodb_dump.sh'; \
+        echo '15 19 * * * /app/mongodb_dump.sh'; \
+      ) | tee -a /var/spool/cron/crontabs/root; \
+    fi
+
+
 # Prepare /app/ folder
 #
 WORKDIR /app/
