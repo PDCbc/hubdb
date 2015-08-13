@@ -27,3 +27,8 @@ mongo query_composer_development --eval \
   'db.users.insert({ "first_name" : "PDC", "last_name" : "Admin", "username" : "admin", "email" : "admin@pdc.io", "encrypted_password" : "\$2a\$10\$ZSuPxdODbumiMGOxtVSpRu0Rd0fQ2HhC7tMu2IobKTaAsPMmFlBD.", "agree_license" : true, "approved" : true, "admin" : true })'
 mongo query_composer_development --eval \
   'db.users.insert({ "first_name" : "PDC", "last_name" : "User", "username" : "user", "email" : "user@pdc.io", "encrypted_password" : "\$2a\$10\$ZSuPxdODbumiMGOxtVSpRu0Rd0fQ2HhC7tMu2IobKTaAsPMmFlBD.", "agree_license" : true, "approved" : true, "admin" : true })'
+
+
+# Create thirdnexts collection
+#
+mongo query_composer_development --eval 'db.createCollection("thirdnexts")'
