@@ -9,7 +9,7 @@ set -e -o nounset
 
 # Start in data folder
 #
-cd /data/3rdNext
+cd /data/ep_sync
 
 
 # Create a list of text files
