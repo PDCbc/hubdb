@@ -16,7 +16,7 @@
 #
 FROM mongo:3.0
 MAINTAINER derek.roberts@gmail.com
-ENV RELEASE 0.1.4
+ENV RELEASE 0.1.5
 
 
 # Packages
