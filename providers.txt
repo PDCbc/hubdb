@@ -1,4 +1,0 @@
-# List provider IDs here
-#
-cpsid
-91604
