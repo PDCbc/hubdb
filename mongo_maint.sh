@@ -16,11 +16,13 @@ set -e -o nounset
 # Set db keys to prevent duplicates
 #
 mongo query_composer_development --eval \
-  'printjson( db.users.ensureIndex({ username : 1 }, { unique : true }))'
+  'printjson( db.users.ensureIndex({ username : 1 }, { unique: true }))'
 mongo query_composer_development --eval \
-  'printjson( db.endpoints.ensureIndex({ base_url : 1 }, { unique : true }))'
+  'printjson( db.endpoints.ensureIndex({ base_url : 1 }, { unique: true }))'
 mongo query_composer_development --eval \
-  'printjson( db.users.ensureIndex({ first_name: 1, last_name:1 }, { unique: true }))'
+  'printjson( db.users.ensureIndex({ username: 1 }, { unique: true }))'
+mongo query_composer_development --eval \
+  'printjson( db.queries.ensureIndex({ description: 1 }, { unique: true }))'
 
 
 # Dump MongoDB, report failure if unsuccessful
