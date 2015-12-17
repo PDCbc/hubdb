@@ -20,7 +20,7 @@
 #
 FROM phusion/baseimage
 MAINTAINER derek.roberts@gmail.com
-ENV RELEASE 0.1.5
+ENV RELEASE 0.1.6
 
 
 ################################################################################
