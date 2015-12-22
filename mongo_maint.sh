@@ -10,7 +10,7 @@ set -e -o nounset
 
 # Run after initial boot, wait 10 seconds for mongo to start
 #
-#sleep 5
+sleep 5
 
 
 # Set db keys to prevent duplicates
