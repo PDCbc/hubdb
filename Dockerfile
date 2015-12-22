@@ -6,8 +6,8 @@
 # Example:
 # sudo docker pull pdcbc/hubdb
 # sudo docker run -d --name hubdb -h hubdb --restart=always \
-#   -v ${PATH_MONGO_LIVE}:/data/db/:rw \
-#   -v ${PATH_MONGO_DUMP}:/data/dump/:rw \
+#   -v /pdc/data/private/mongo_live/:/data/db/:rw \
+#   -v /pdc/data/private/mongo_dump/:/data/dump/:rw \
 #   pdcbc/hubdb:latest
 #
 # Folder paths
@@ -20,7 +20,6 @@
 #
 FROM phusion/baseimage
 MAINTAINER derek.roberts@gmail.com
-ENV RELEASE 0.1.6
 
 
 ################################################################################
@@ -78,19 +77,10 @@ EXPOSE 27017
 ################################################################################
 
 
-# Packages
-#
-RUN apt-get update; \
-    apt-get install -y \
-      git; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
 # Prepare /app/ folder
 #
 WORKDIR /app/
-RUN git clone https://github.com/pdcbc/hubdb.git . -b ${RELEASE}
+COPY . .
 
 
 # Mongo startup
@@ -105,8 +95,7 @@ RUN mkdir -p /etc/service/mongod/; \
 		echo ""; \
 		echo "# Start mongod"; \
 		echo "#"; \
-		echo "#exec mongod --storageEngine wiredTiger"; \
-		echo "exec mongod"; \
+		echo "exec mongod --storageEngine wiredTiger"; \
   )  \
     >> ${SCRIPT}; \
 	chmod +x ${SCRIPT}
