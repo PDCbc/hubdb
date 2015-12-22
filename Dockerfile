@@ -14,9 +14,6 @@
 # - Mongo live db: -v </path/>:/data/db/:rw
 # - Mongo dumps:   -v </path/>:/data/dump/:rw
 #
-# Releases
-# - https://github.com/PDCbc/gateway/releases
-#
 #
 FROM phusion/baseimage
 MAINTAINER derek.roberts@gmail.com
@@ -59,18 +56,8 @@ RUN apt-get update; \
 		rm -rf /var/lib/apt/lists/* \
 			/var/lib/mongodb \
 			/etc/mongod.conf
-
-
-# Volume
-#
 RUN mkdir -p /data/db; \
 		chown -R mongodb:mongodb /data/db
-VOLUME /data/db
-
-
-# Port
-#
-EXPOSE 27017
 
 
 ################################################################################
@@ -87,28 +74,35 @@ COPY . .
 # Mongo startup
 #
 RUN mkdir -p /etc/service/mongod/; \
-	SCRIPT=/etc/service/mongod/run; \
-  ( \
-    echo "#!/bin/bash"; \
-    echo ""; \
-    echo "set -e -o nounset"; \
-		echo ""; \
-		echo ""; \
-		echo "# Start mongod"; \
-		echo "#"; \
-		echo "chown -R mongodb:mongodb /data/db"; \
-		echo "exec /sbin/setuser mongodb mongod --storageEngine wiredTiger"; \
-  )  \
-    >> ${SCRIPT}; \
-	chmod +x ${SCRIPT}
+		SCRIPT=/etc/service/mongod/run; \
+	  ( \
+	    echo "#!/bin/bash"; \
+	    echo ""; \
+	    echo "set -e -o nounset"; \
+			echo ""; \
+			echo ""; \
+			echo "# Start mongod"; \
+			echo "#"; \
+			echo "chown -R mongodb:mongodb /data/db"; \
+			echo "exec /sbin/setuser mongodb mongod --storageEngine wiredTiger"; \
+	  )  \
+	    >> ${SCRIPT}; \
+		chmod +x ${SCRIPT}
 
 
 # Maintenance script and cron job
 #
 RUN SCRIPT=/app/mongo_maint.sh; \
-  ( \
-    echo "# Run database dump/maintenance script (boot, daily 1:15 AM)"; \
-		echo "@reboot ${SCRIPT}"; \
-    echo "15 1 * * * \${SCRIPT}"; \
-  ) \
-    | crontab -
+	  ( \
+	    echo "# Run database dump/maintenance script (boot, daily 1:15 AM)"; \
+			echo "@reboot ${SCRIPT}"; \
+	    echo "15 1 * * * \${SCRIPT}"; \
+	  ) \
+	    | crontab -
+
+
+# Ports and volumes
+#
+EXPOSE 27017
+#
+VOLUME /data/db/
