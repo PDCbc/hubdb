@@ -96,7 +96,8 @@ RUN mkdir -p /etc/service/mongod/; \
 		echo ""; \
 		echo "# Start mongod"; \
 		echo "#"; \
-		echo "exec mongod --storageEngine wiredTiger"; \
+		echo "chown -R mongodb:mongodb /data/db"; \
+		echo "exec /sbin/setuser mongodb mongod --storageEngine wiredTiger"; \
   )  \
     >> ${SCRIPT}; \
 	chmod +x ${SCRIPT}
@@ -107,7 +108,7 @@ RUN mkdir -p /etc/service/mongod/; \
 RUN SCRIPT=/app/mongo_maint.sh; \
   ( \
     echo "# Run database dump/maintenance script (boot, daily 1:15 AM)"; \
-		echo "@reboot "${SCRIPT}; \
-    echo "15 1 * * * "${SCRIPT}; \
+		echo "@reboot ${SCRIPT}"; \
+    echo "15 1 * * * \${SCRIPT}"; \
   ) \
     | crontab -
