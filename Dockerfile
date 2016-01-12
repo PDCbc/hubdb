@@ -96,7 +96,7 @@ RUN SCRIPT=/app/mongo_maint.sh; \
 	  ( \
 	    echo "# Run database dump/maintenance script (boot, daily 1:15 AM)"; \
 			echo "@reboot ${SCRIPT}"; \
-	    echo "15 1 * * * \${SCRIPT}"; \
+	    echo "15 1 * * * ${SCRIPT}"; \
 	  ) \
 	    | crontab -
 
