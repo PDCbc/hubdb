@@ -41,7 +41,7 @@ RUN groupadd -r mongodb; \
 
 # Packages
 #
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 42F3E95A2C4F08279C4960ADD68FA50FEA312927; \
+RUN apt-key adv --keyserver hkp://pgp.mit.edu --recv-keys 42F3E95A2C4F08279C4960ADD68FA50FEA312927; \
     echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/$MONGO_MAJOR multiverse" > /etc/apt/sources.list.d/mongodb-org.list
 RUN apt-get update; \
     apt-get install -y \
