@@ -8,8 +8,12 @@
 set -e -o nounset
 
 
-# Run after initial boot, wait 10 seconds for mongo to start
+# Wait for mongo to start, important after boot
 #
+while [ $( pgrep -c mongod ) -eq 0 ]
+do
+	sleep 60
+done
 sleep 5
 
 

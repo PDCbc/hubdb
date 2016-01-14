@@ -24,40 +24,35 @@ MAINTAINER derek.roberts@gmail.com
 ################################################################################
 
 
+# Environment variables
+#
+ENV TERM xterm
+ENV DEBIAN_FRONTEND noninteractive
+#
+ENV MONGO_MAJOR 3.2
+ENV MONGO_VERSION 3.2.0
+
+
 # Create users and groups
 #
 RUN groupadd -r mongodb; \
-		useradd -r -g mongodb mongodb
+    useradd -r -g mongodb mongodb
 
 
 # Packages
 #
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 42F3E95A2C4F08279C4960ADD68FA50FEA312927; \
+    echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/$MONGO_MAJOR multiverse" > /etc/apt/sources.list.d/mongodb-org.list
 RUN apt-get update; \
-		apt-get install -y --no-install-recommends \
-			ca-certificates; \
-		rm -rf /var/lib/apt/lists/*
-
-
-# MongoDB
-#
-ENV MONGO_MAJOR 3.2
-ENV MONGO_VERSION 3.2.0
-#
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys DFFA3DCF326E302C4787673A01C4E7FAAAB2461C; \
-		apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 42F3E95A2C4F08279C4960ADD68FA50FEA312927; \
-		echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/$MONGO_MAJOR multiverse" > /etc/apt/sources.list.d/mongodb-org.list
-RUN apt-get update; \
-		apt-get install -y \
-			mongodb-org=$MONGO_VERSION \
-			mongodb-org-server=$MONGO_VERSION \
-			mongodb-org-shell=$MONGO_VERSION \
-			mongodb-org-mongos=$MONGO_VERSION \
-			mongodb-org-tools=$MONGO_VERSION; \
-		rm -rf /var/lib/apt/lists/* \
-			/var/lib/mongodb \
-			/etc/mongod.conf
-RUN mkdir -p /data/db; \
-		chown -R mongodb:mongodb /data/db
+    apt-get install -y \
+      mongodb-org=$MONGO_VERSION \
+      mongodb-org-server=$MONGO_VERSION \
+      mongodb-org-shell=$MONGO_VERSION \
+      mongodb-org-mongos=$MONGO_VERSION \
+      mongodb-org-tools=$MONGO_VERSION; \
+    rm -rf /var/lib/apt/lists/* \
+      /var/lib/mongodb \
+      /etc/mongod.conf
 
 
 ################################################################################
@@ -96,7 +91,7 @@ RUN SCRIPT=/app/mongo_maint.sh; \
 	  ( \
 	    echo "# Run database dump/maintenance script (boot, daily 1:15 AM)"; \
 			echo "@reboot ${SCRIPT}"; \
-	    echo "15 1 * * * \${SCRIPT}"; \
+	    echo "15 1 * * * ${SCRIPT}"; \
 	  ) \
 	    | crontab -
 
