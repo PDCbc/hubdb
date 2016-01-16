@@ -89,9 +89,9 @@ RUN mkdir -p /etc/service/mongod/; \
 #
 RUN SCRIPT=/app/mongo_maint.sh; \
 	  ( \
-	    echo "# Run database dump/maintenance script (boot, daily 1:15 AM)"; \
+	    echo "# Run database dump/maintenance script (boot, 2 PST = 10 UTC)"; \
 			echo "@reboot ${SCRIPT}"; \
-	    echo "15 1 * * * ${SCRIPT}"; \
+	    echo "0 10 * * * ${SCRIPT}"; \
 	  ) \
 	    | crontab -
 
