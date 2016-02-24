@@ -49,8 +49,7 @@ RUN apt-get update; \
       mongodb-org-server=$MONGO_VERSION \
       mongodb-org-shell=$MONGO_VERSION \
       mongodb-org-mongos=$MONGO_VERSION \
-      mongodb-org-tools=$MONGO_VERSION \
-      numactl; \
+      mongodb-org-tools=$MONGO_VERSION; \
     rm -rf /var/lib/apt/lists/* \
       /var/lib/mongodb \
       /etc/mongod.conf
@@ -80,7 +79,7 @@ RUN mkdir -p /etc/service/mongod/; \
 			echo "# Start mongod"; \
 			echo "#"; \
 			echo "chown -R mongodb:mongodb /data/db"; \
-			echo "exec /sbin/setuser mongodb numactl --interleave=all mongod --storageEngine wiredTiger"; \
+			echo "exec /sbin/setuser mongodb mongod --storageEngine wiredTiger"; \
 	  )  \
 	    >> ${SCRIPT}; \
 		chmod +x ${SCRIPT}
